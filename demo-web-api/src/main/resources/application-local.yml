@@ -1,0 +1,29 @@
+server:
+  port: 8080
+spring:
+  flyway:
+    check-location: true
+    enabled: true
+    locations: classpath:/db/migration
+  datasource:
+    url: jdbc:mysql://localhost:3306/demoweb?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
+    username: sa
+    password: 123456
+  jpa:
+    show-sql: true
+
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+
+amazonProperties:
+  endpointUrl: https://s3.us-east-2.amazonaws.com
+  accessKey: AKIAUBNHGIUFFNDRDOPQ
+  secretKey: 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
+  bucketName: buketapp
+  region: us-east-1

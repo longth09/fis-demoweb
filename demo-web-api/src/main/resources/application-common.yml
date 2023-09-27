@@ -1,0 +1,79 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: 242195173866-m7gijqgad9p23inv1v1mphfqkgm6diht.apps.googleusercontent.com
+            clientSecret: Qax2QbQXW76Wmqg7irlypeDj
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - email
+              - profile
+          facebook:
+            clientId: 525586915416203
+            clientSecret: 77732abd45f15d12173afcab8c677557
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - email
+              - public_profile
+          github:
+            clientId: 7ddfdbe5f21d76ffd5b3
+            clientSecret: b53c008f49505455228f3eb4307b25b0d2168e07
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - user:email
+              - read:user
+        provider:
+          facebook:
+            authorizationUri: https://www.facebook.com/v3.0/dialog/oauth
+            tokenUri: https://graph.facebook.com/v3.0/oauth/access_token
+            userInfoUri: https://graph.facebook.com/v3.0/me?fields=id,first_name,middle_name,last_name,name,email,verified,is_verified,picture.width(250).height(250)
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  mail:
+    host: smtp.office365.com
+    port: 587
+    username: noreply@globalsustainabilityplatform.com
+    password: GSPsystem21
+    properties:
+      mail:
+        smtp:
+          auth: true
+          connectiontimeout: 25000
+          timeout: 25000
+          writetimeout: 5000
+          starttls:
+            enable: true
+
+info.build:
+  version: @project.version@
+
+app:
+  auth:
+    tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
+    tokenExpirationMsec: 864000000
+  oauth2:
+    authorizedRedirectUris:
+      - http://localhost:3000/api/auth/callback/google
+      - https://ticketing.bovn.io/api/auth/callback/google
+      - https://bovn.io/api/auth/callback/google
+      - https://globalsustainabilityplatform.com/api/auth/callback/google
+  name: "Global Sustainability Platform"
+  receipt.company: "PFI Fareast (Hong Kong) Co. Limited
+  A member of PFI Group
+  Office 1016 | ChinaChem Golden Plaza 77 Mody Road | Tsim Sha Tsui East Kowloon | SAR Hong Kong cs@globalsustainabilityplatform.com"
+zoom:
+  autoApprove: false
+  url: https://api.zoom.us/v2
+  accessKey: 0enlswPFRuuHxJtDzB_p3g
+  secretKey: Z1qVpOH9JL9UXOxGDj01DkK0EjBundoDgL23
