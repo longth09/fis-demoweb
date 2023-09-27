@@ -16,5 +16,6 @@ CREATE TABLE coupons
     current_quantity    INT          NOT NULL,
 
     CONSTRAINT pk_coupons PRIMARY KEY (id),
-    CONSTRAINT pk_coupons_event FOREIGN KEY (event_id) REFERENCES events (id)
+    CONSTRAINT pk_coupons_event FOREIGN KEY (event_id) REFERENCES events (id),
+    CONSTRAINT fk_coupons_tickets FOREIGN KEY (ticket_id) REFERENCES tickets(id)
 );

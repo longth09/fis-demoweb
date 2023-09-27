@@ -30,8 +30,8 @@ public class Tickets extends JpaIDEntity {
 
     private String address;
 
-    @Type(type = "char")
-    private String rank;
+    @Column(name = "`rank`")
+    private Character rank;
 
     private BigDecimal price;
 

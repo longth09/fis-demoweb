@@ -1,6 +1,8 @@
 package com.demo.coupons.domain.model;
 
+import com.demo.event.domain.model.Event;
 import com.demo.shared.model.JpaIDEntity;
+import com.demo.tickets.domain.model.Tickets;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,6 +10,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotEmpty;
@@ -42,13 +47,13 @@ public class Coupons extends JpaIDEntity {
     @NotNull(message = "quantity isEmpty!")
     Integer quantity;
 
-    @Column(name = "ticket_id")
-    @NotNull(message = "ticketId isEmpty!")
-    Long ticketId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "ticket_id", referencedColumnName = "id")
+    Tickets ticketId;
 
-    @Column(name = "event_id")
-    @NotNull(message = "eventId isEmpty!")
-    Long eventId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "event_id", referencedColumnName = "id")
+    Event eventId;
 
     @Column(name = "discount")
     @NotNull(message = "discount isEmpty!")
