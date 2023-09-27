@@ -1,0 +1,2 @@
+ALTER TABLE `tickets`
+    ADD COLUMN `offer` VARCHAR(255) NULL;

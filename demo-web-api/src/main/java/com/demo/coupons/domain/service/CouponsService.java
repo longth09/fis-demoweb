@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 import static com.demo.common.exception.DefaultErrorCode.DEFAULT_NOT_FOUND;
@@ -62,5 +63,15 @@ public class CouponsService implements ICouponsService {
         coupons.setId(id);
         coupons.setCurrentQuantity(coupons.getQuantity());
         return couponsRepository.save(coupons);
+    }
+
+    @Override
+    public List<String> listCodes() {
+        return couponsRepository.listCodes();
+    }
+
+    @Override
+    public Coupons findByCOde(String code) {
+        return couponsRepository.findByCode(code);
     }
 }

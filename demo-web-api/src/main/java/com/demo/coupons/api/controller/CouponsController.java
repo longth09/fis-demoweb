@@ -70,4 +70,14 @@ public class CouponsController {
         if (delAll) return BaseResponse.ofSucceeded("");
         return BaseResponse.ofFailed(DefaultErrorCode.DEFAULT_BAD_REQUEST);
     }
+
+    @GetMapping("/tickets-codes")
+    public BaseResponse<?> getCodes() {
+        return BaseResponse.ofSucceeded(iCouponsService.listCodes());
+    }
+
+    @GetMapping("/tickets-by-code/{code}")
+    public BaseResponse<?> getByCode(@PathVariable("code") String code){
+        return BaseResponse.ofSucceeded(iCouponsService.findByCOde(code));
+    }
 }
