@@ -2,7 +2,6 @@ package com.demo.coupons.domain.model;
 
 import com.demo.event.domain.model.Event;
 import com.demo.shared.model.JpaIDEntity;
-import com.demo.tickets.domain.model.Tickets;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -47,9 +46,9 @@ public class Coupons extends JpaIDEntity {
     @NotNull(message = "quantity isEmpty!")
     Integer quantity;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "ticket_id", referencedColumnName = "id")
-    Tickets ticketId;
+    @Column(name = "ticket_id")
+    @NotNull(message = "ticketId isEmpty!")
+    Long ticketId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "event_id", referencedColumnName = "id")
