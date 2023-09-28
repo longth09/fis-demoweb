@@ -49,4 +49,6 @@ public class Tickets extends JpaIDEntity {
     @JoinColumn(name = "event_id", referencedColumnName = "id")
     private Event event;
 
+    private String offer;
+
 }

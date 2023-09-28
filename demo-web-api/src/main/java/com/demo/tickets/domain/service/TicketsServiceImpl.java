@@ -1,5 +1,7 @@
 package com.demo.tickets.domain.service;
 
+import com.demo.coupons.domain.model.Coupons;
+import com.demo.coupons.infrastructure.repository.CouponsRepository;
 import com.demo.tickets.domain.model.Tickets;
 import com.demo.tickets.infrastructure.repository.TicketsRepository;
 import lombok.RequiredArgsConstructor;
@@ -7,9 +9,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
-public class TicketsServiceImpl implements TicketsService{
+public class TicketsServiceImpl implements TicketsService {
+
+    private final CouponsRepository couponsRepository;
 
     private final TicketsRepository repository;
 
@@ -36,6 +42,7 @@ public class TicketsServiceImpl implements TicketsService{
 
     @Override
     public Tickets insert(Tickets tickets) {
+        Coupons coupons = couponsRepository.findByCode(tickets.getOffer());
         return repository.save(tickets);
     }
 
