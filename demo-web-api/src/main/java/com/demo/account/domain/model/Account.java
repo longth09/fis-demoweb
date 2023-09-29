@@ -73,4 +73,7 @@ public class Account extends JpaIDEntity {
         this.setProvider(AuthProvider.local);
         this.setRoles(Collections.singletonList(RoleDefinition.ROLE_USER));
     }
+
+    @Column(name = "trang_thai")
+    Integer trangThai = 0;
 }

@@ -1,0 +1,2 @@
+ALTER TABLE `account` ADD COLUMN `token` VARCHAR(255) NULL;
+ALTER TABLE `account` ADD COLUMN trang_thai INT NULL DEFAULT 0;
