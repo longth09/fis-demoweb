@@ -12,7 +12,9 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Getter
 @Setter
-public class TicketsResDto extends Tickets {
+public class TicketsResDto {
+
+    private Tickets tickets;
 
     private BigDecimal priceDiscount;
 

@@ -55,11 +55,9 @@ public class Coupons extends JpaIDEntity {
     Event eventId;
 
     @Column(name = "discount")
-    @NotNull(message = "discount isEmpty!")
     Double discount;
 
     @Column(name = "discount_percentage")
-    @NotNull(message = "Name isEmpty!")
     Double discountPercentage;
 
     @Column(name = "max_discount")
@@ -68,5 +66,8 @@ public class Coupons extends JpaIDEntity {
 
     @Column(name = "current_quantity")
     Integer currentQuantity;
+
+    @Column(name = "trang_thai")
+    Integer trangThai = 0;
 
 }

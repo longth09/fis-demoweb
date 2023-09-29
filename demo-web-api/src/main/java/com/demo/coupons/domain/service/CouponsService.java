@@ -74,4 +74,17 @@ public class CouponsService implements ICouponsService {
     public Coupons findByCOde(String code) {
         return couponsRepository.findByCode(code);
     }
+
+    @Override
+    public Coupons updateQuantity(Long id, Integer quantity) {
+        try{
+            Coupons coupons = getById(id);
+            coupons.setCurrentQuantity(coupons.getCurrentQuantity() - quantity);
+            return couponsRepository.save(coupons);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("ERRROORR");
+            return null;
+        }
+    }
 }

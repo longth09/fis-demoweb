@@ -2,6 +2,7 @@ package com.demo.tickets.api.controller;
 
 import com.demo.common.exception.DefaultErrorCode;
 import com.demo.common.rest.response.BaseResponse;
+import com.demo.tickets.api.dto.TicketsResDto;
 import com.demo.tickets.domain.model.Tickets;
 import com.demo.tickets.domain.service.TicketsService;
 import lombok.RequiredArgsConstructor;
@@ -59,7 +60,7 @@ public class TicketsController {
     @PostMapping("/tickets")
     public BaseResponse<?> insert(@Valid @RequestBody Tickets tickets) {
         try {
-             Tickets tickets1 = ticketsService.insert(tickets);
+             TicketsResDto tickets1 = ticketsService.insert(tickets);
              return BaseResponse.ofSucceeded(tickets1);
         } catch (Exception e) {
             e.printStackTrace();

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -71,13 +72,18 @@ public class CouponsController {
         return BaseResponse.ofFailed(DefaultErrorCode.DEFAULT_BAD_REQUEST);
     }
 
-    @GetMapping("/tickets-codes")
+    @GetMapping("/coupons-codes")
     public BaseResponse<?> getCodes() {
         return BaseResponse.ofSucceeded(iCouponsService.listCodes());
     }
 
-    @GetMapping("/tickets-by-code/{code}")
+    @GetMapping("/coupons-by-code/{code}")
     public BaseResponse<?> getByCode(@PathVariable("code") String code){
         return BaseResponse.ofSucceeded(iCouponsService.findByCOde(code));
+    }
+
+    @PutMapping("/coupons-update-quantity/{id}")
+    public BaseResponse<?> updateQuantity(@PathVariable("id") Long id, @RequestParam("quantity") Integer quantity) {
+        return BaseResponse.ofSucceeded(iCouponsService.updateQuantity(id, quantity));
     }
 }

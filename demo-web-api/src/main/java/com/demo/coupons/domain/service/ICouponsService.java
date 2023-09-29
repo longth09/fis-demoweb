@@ -25,4 +25,6 @@ public interface ICouponsService {
 
     Coupons findByCOde(String code);
 
+    Coupons updateQuantity(Long id, Integer quantity);
+
 }

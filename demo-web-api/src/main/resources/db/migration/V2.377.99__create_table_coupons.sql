@@ -10,8 +10,8 @@ CREATE TABLE coupons
     quantity            INT          NOT NULL,
     ticket_id           BIGINT       NOT NULL,
     event_id            BIGINT       NOT NULL,
-    discount            DOUBLE       NOT NULL,
-    discount_percentage DOUBLE       NOT NULL,
+    discount            DOUBLE       NULL,
+    discount_percentage DOUBLE       NULL,
     max_discount        DOUBLE       NOT NULL,
     current_quantity    INT          NOT NULL,
 

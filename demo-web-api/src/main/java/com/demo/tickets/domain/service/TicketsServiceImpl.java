@@ -1,6 +1,7 @@
 package com.demo.tickets.domain.service;
 
 import com.demo.coupons.domain.model.Coupons;
+import com.demo.coupons.domain.service.ICouponsService;
 import com.demo.coupons.infrastructure.repository.CouponsRepository;
 import com.demo.tickets.api.dto.TicketsResDto;
 import com.demo.tickets.domain.model.Tickets;
@@ -19,6 +20,8 @@ import java.util.List;
 public class TicketsServiceImpl implements TicketsService {
 
     private final CouponsRepository couponsRepository;
+
+    private final ICouponsService iCouponsService;
 
     private final TicketsRepository repository;
 
@@ -45,21 +48,30 @@ public class TicketsServiceImpl implements TicketsService {
 
     @Override
     public TicketsResDto insert(Tickets tickets) {
+        TicketsResDto ticketsResDto = new TicketsResDto();
+        ticketsResDto.setTickets(tickets);
         if(tickets.getOffer() == null) {
             Tickets tickets1 = repository.save(tickets);
         } else {
             Coupons coupons = couponsRepository.findByCode(tickets.getOffer());
-            if(coupons != null) {
-                Tickets tickets1 = repository.save(tickets);
-                TicketsResDto ticketsResDto = new TicketsResDto();
+            if(coupons != null && coupons.getCurrentQuantity() != 0) {
                 ticketsResDto.setCodeCoupon(tickets.getOffer());
-                BigDecimal priceDown = tickets1.getPrice().multiply(BigDecimal.valueOf(coupons.getDiscount()).divide(BigDecimal.valueOf(100)));
+                Tickets tickets1 = repository.save(tickets);
+                if(coupons.getDiscountPercentage() != null) {
+                    BigDecimal persentage = tickets1.getPrice().multiply(BigDecimal.valueOf(coupons.getDiscountPercentage()).divide(BigDecimal.valueOf(100)));
+                    BigDecimal priceDown = tickets1.getPrice().subtract(persentage);
+                    ticketsResDto.setPriceDiscount(priceDown);
+                } else {
+                    BigDecimal priceDown = tickets1.getPrice().subtract(BigDecimal.valueOf(coupons.getDiscount()));
+                    ticketsResDto.setPriceDiscount(priceDown);
+                }
 
+                Coupons coupons1 = iCouponsService.updateQuantity(coupons.getId(), 1);
             }
         }
 
 
-        return null;
+        return ticketsResDto;
     }
 
     @Override

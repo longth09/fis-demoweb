@@ -45,4 +45,7 @@ public class Event extends JpaIDEntity implements Serializable {
     String imgUrl;
 
     Boolean isActive;
+
+    @Column(name = "trang_thai")
+    Integer trangThai = 0;
 }

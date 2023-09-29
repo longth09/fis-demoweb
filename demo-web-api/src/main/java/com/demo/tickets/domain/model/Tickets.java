@@ -51,4 +51,7 @@ public class Tickets extends JpaIDEntity {
 
     private String offer;
 
+    @Column(name = "trang_thai")
+    Integer trangThai = 0;
+
 }
