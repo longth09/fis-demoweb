@@ -3,23 +3,32 @@ package com.demo.account.api.controller;
 import com.demo.account.api.dto.request.AccountRequestDto;
 import com.demo.account.api.dto.request.ResetPasswordReqDto;
 import com.demo.account.api.dto.request.RolesRequestDto;
+import com.demo.account.api.dto.request.SignInRequest;
 import com.demo.account.domain.model.Account;
 import com.demo.account.domain.service.IAccountService;
 import com.demo.account.infrastructure.repository.AccountRepository;
 import com.demo.common.exception.DefaultErrorCode;
 import com.demo.common.rest.response.BaseResponse;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
@@ -37,6 +46,7 @@ public class AccountController {
 
     @PostMapping("/accounts/add")
     public BaseResponse<Account> insert(@Valid @RequestBody AccountRequestDto requestDto) {
+        requestDto.setToken(getJWTToken(requestDto.getEmail()));
         return BaseResponse.ofSucceeded(service.createIfNotExist(requestDto));
     }
 
@@ -79,6 +89,37 @@ public class AccountController {
         } catch (Exception e) {
             return BaseResponse.ofFailed(DefaultErrorCode.DEFAULT_BAD_REQUEST);
         }
+    }
+
+    @PostMapping("user")
+    public SignInRequest login(@RequestParam("user") String username, @RequestParam("password") String pwd) {
+
+        String token = getJWTToken(username);
+        SignInRequest user = new SignInRequest();
+        user.setEmail(username);
+        user.setToken(token);
+        return user;
+    }
+
+    private String getJWTToken(String username) {
+        String secretKey = "mySecretKey";
+        List<GrantedAuthority> grantedAuthorities = AuthorityUtils
+                .commaSeparatedStringToAuthorityList("ROLE_USER");
+
+        String token = Jwts
+                .builder()
+                .setId("softtekJWT")
+                .setSubject(username)
+                .claim("authorities",
+                        grantedAuthorities.stream()
+                                .map(GrantedAuthority::getAuthority)
+                                .collect(Collectors.toList()))
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 600000))
+                .signWith(SignatureAlgorithm.HS512,
+                        secretKey.getBytes()).compact();
+
+        return "Bearer " + token;
     }
 
 }

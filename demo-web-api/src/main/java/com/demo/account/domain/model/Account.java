@@ -76,4 +76,6 @@ public class Account extends JpaIDEntity {
 
     @Column(name = "trang_thai")
     Integer trangThai = 0;
+
+    String token;
 }
