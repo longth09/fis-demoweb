@@ -2,13 +2,16 @@ package com.demo.tickets.domain.service;
 
 import com.demo.coupons.domain.model.Coupons;
 import com.demo.coupons.infrastructure.repository.CouponsRepository;
+import com.demo.tickets.api.dto.TicketsResDto;
 import com.demo.tickets.domain.model.Tickets;
 import com.demo.tickets.infrastructure.repository.TicketsRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -41,9 +44,22 @@ public class TicketsServiceImpl implements TicketsService {
     }
 
     @Override
-    public Tickets insert(Tickets tickets) {
-        Coupons coupons = couponsRepository.findByCode(tickets.getOffer());
-        return repository.save(tickets);
+    public TicketsResDto insert(Tickets tickets) {
+        if(tickets.getOffer() == null) {
+            Tickets tickets1 = repository.save(tickets);
+        } else {
+            Coupons coupons = couponsRepository.findByCode(tickets.getOffer());
+            if(coupons != null) {
+                Tickets tickets1 = repository.save(tickets);
+                TicketsResDto ticketsResDto = new TicketsResDto();
+                ticketsResDto.setCodeCoupon(tickets.getOffer());
+                BigDecimal priceDown = tickets1.getPrice().multiply(BigDecimal.valueOf(coupons.getDiscount()).divide(BigDecimal.valueOf(100)));
+
+            }
+        }
+
+
+        return null;
     }
 
     @Override

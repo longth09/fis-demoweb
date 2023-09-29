@@ -1,5 +1,6 @@
 package com.demo.tickets.domain.service;
 
+import com.demo.tickets.api.dto.TicketsResDto;
 import com.demo.tickets.domain.model.Tickets;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,7 +13,7 @@ public interface TicketsService {
 
     Boolean deleteById(Long id);
 
-    Tickets insert(Tickets tickets);
+    TicketsResDto insert(Tickets tickets);
 
     Tickets update(Long id, Tickets tickets);
 
