@@ -91,7 +91,7 @@ public class AccountController {
         }
     }
 
-    @PostMapping("user")
+    @PostMapping("/login")
     public BaseResponse<?> login(@RequestParam("user") String username, @RequestParam("password") String pwd) {
 
         Account signInRequest = service.checkLogin(username, pwd);
@@ -101,6 +101,7 @@ public class AccountController {
             String token = getJWTToken(username);
             SignInRequest user = new SignInRequest();
             user.setEmail(username);
+            user.setPassword(pwd);
             user.setToken(token);
             return BaseResponse.ofSucceeded(user);
         }
@@ -110,7 +111,7 @@ public class AccountController {
     private String getJWTToken(String username) {
         String secretKey = "mySecretKey";
         List<GrantedAuthority> grantedAuthorities = AuthorityUtils
-                .commaSeparatedStringToAuthorityList("ROLE_USER");
+                .commaSeparatedStringToAuthorityList("ROLE_ADMIN");
 
         String token = Jwts
                 .builder()
@@ -121,7 +122,7 @@ public class AccountController {
                                 .map(GrantedAuthority::getAuthority)
                                 .collect(Collectors.toList()))
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 60000))
+                .setExpiration(new Date(System.currentTimeMillis() + 600000))
                 .signWith(SignatureAlgorithm.HS512,
                         secretKey.getBytes()).compact();
 

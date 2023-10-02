@@ -22,7 +22,7 @@ logging:
               BasicBinder: TRACE
 
 amazonProperties:
-  endpointUrl: https://s3.us-east-2.amazonaws.com
+  endpointUrl: https://s3.us-east-1.amazonaws.com
   accessKey: AKIAUBNHGIUFFNDRDOPQ
   secretKey: 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
   bucketName: buketapp
