@@ -3,6 +3,7 @@ package com.demo.account.domain.service;
 import com.demo.account.api.dto.request.AccountRequestDto;
 import com.demo.account.api.dto.request.ResetPasswordReqDto;
 import com.demo.account.api.dto.request.RolesRequestDto;
+import com.demo.account.api.dto.request.SignInRequest;
 import com.demo.account.domain.mapper.IAccountRequestMapper;
 import com.demo.account.domain.model.Account;
 import com.demo.account.domain.model.RoleDefinition;
@@ -79,6 +80,16 @@ public class AccountService implements IAccountService {
     @Override
     public Account resetPassword(ResetPasswordReqDto requestDto) {
         return new Account();
+    }
+
+    @Override
+    public Account getAccountLogin() {
+        return repository.getAccountLogin();
+    }
+
+    @Override
+    public Account checkLogin(String email, String passwork) {
+        return repository.checkLogin(email, passwork);
     }
 
     private void appendRoles(RolesRequestDto requestDto, Account account) {

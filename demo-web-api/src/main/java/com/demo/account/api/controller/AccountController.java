@@ -92,13 +92,19 @@ public class AccountController {
     }
 
     @PostMapping("user")
-    public SignInRequest login(@RequestParam("user") String username, @RequestParam("password") String pwd) {
+    public BaseResponse<?> login(@RequestParam("user") String username, @RequestParam("password") String pwd) {
 
-        String token = getJWTToken(username);
-        SignInRequest user = new SignInRequest();
-        user.setEmail(username);
-        user.setToken(token);
-        return user;
+        Account signInRequest = service.checkLogin(username, pwd);
+
+        if(signInRequest != null) {
+
+            String token = getJWTToken(username);
+            SignInRequest user = new SignInRequest();
+            user.setEmail(username);
+            user.setToken(token);
+            return BaseResponse.ofSucceeded(user);
+        }
+        return BaseResponse.ofFailed(DefaultErrorCode.DEFAULT_NOT_FOUND);
     }
 
     private String getJWTToken(String username) {

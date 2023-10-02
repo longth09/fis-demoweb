@@ -4,9 +4,11 @@ import com.demo.account.api.dto.request.AccountRequestDto;
 import com.demo.account.api.dto.request.ActiveAccountReqDto;
 import com.demo.account.api.dto.request.ResetPasswordReqDto;
 import com.demo.account.api.dto.request.RolesRequestDto;
+import com.demo.account.api.dto.request.SignInRequest;
 import com.demo.account.domain.model.Account;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 
 public interface IAccountService {
     Page<Account> list(Pageable pageable);
@@ -24,5 +26,9 @@ public interface IAccountService {
     Account createIfNotExist(AccountRequestDto requestDto);
 
     Account resetPassword(ResetPasswordReqDto requestDto);
+
+    Account getAccountLogin();
+
+    Account checkLogin(String email, String passwork);
 
 }
