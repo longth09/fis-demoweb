@@ -30,7 +30,7 @@ amazonProperties:
 
 # Keycloak Configuration
 keycloak:
-  auth-server-url: http://localhost:9090/auth
+  auth-server-url: http://localhost:8080/auth
   realm: Demoweb
   resource: login-app
   public-client: true

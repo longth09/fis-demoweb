@@ -9,13 +9,10 @@ import com.demo.account.domain.service.IAccountService;
 import com.demo.account.infrastructure.repository.AccountRepository;
 import com.demo.common.exception.DefaultErrorCode;
 import com.demo.common.rest.response.BaseResponse;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,10 +22,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
@@ -55,6 +48,7 @@ public class AccountController {
     }
 
     @GetMapping("/accounts/{id}")
+    @PreAuthorize("hasRole('user')")
     public BaseResponse<Account> get(@PathVariable Long id) {
         Account account = service.getById(id);
         return BaseResponse.ofSucceeded(service.getById(id));
@@ -90,7 +84,7 @@ public class AccountController {
         }
     }
 
-    @PostMapping("/login")
+    @PostMapping("/loginhi")
     public BaseResponse<?> login(@RequestParam("user") String username, @RequestParam("password") String pwd) {
 
         Account signInRequest = service.checkLogin(username, pwd);
