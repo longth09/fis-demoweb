@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8081
 spring:
   flyway:
     check-location: true
@@ -27,3 +27,17 @@ amazonProperties:
   secretKey: T5vsAeFB1SwQnQd3cgjO5mXPRE9IkrUYLpAoqBOi
   bucketName: buketapp
   region: us-east-1
+
+# Keycloak Configuration
+keycloak:
+  auth-server-url: http://localhost:9090/auth
+  realm: Demoweb
+  resource: login-app
+  public-client: true
+  security-constraints:
+    - authRoles:
+        - role_user
+      securityCollections:
+        - patterns:
+            - /secure/*
+  principal-attribute: preferred_username

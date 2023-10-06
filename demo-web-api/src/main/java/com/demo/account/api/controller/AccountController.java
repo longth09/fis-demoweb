@@ -46,7 +46,6 @@ public class AccountController {
 
     @PostMapping("/accounts/add")
     public BaseResponse<Account> insert(@Valid @RequestBody AccountRequestDto requestDto) {
-        requestDto.setToken(getJWTToken(requestDto.getEmail()));
         return BaseResponse.ofSucceeded(service.createIfNotExist(requestDto));
     }
 
@@ -96,37 +95,14 @@ public class AccountController {
 
         Account signInRequest = service.checkLogin(username, pwd);
 
-        if(signInRequest != null) {
+        if (signInRequest != null) {
 
-            String token = getJWTToken(username);
             SignInRequest user = new SignInRequest();
             user.setEmail(username);
             user.setPassword(pwd);
-            user.setToken(token);
             return BaseResponse.ofSucceeded(user);
         }
         return BaseResponse.ofFailed(DefaultErrorCode.DEFAULT_NOT_FOUND);
-    }
-
-    private String getJWTToken(String username) {
-        String secretKey = "mySecretKey";
-        List<GrantedAuthority> grantedAuthorities = AuthorityUtils
-                .commaSeparatedStringToAuthorityList("ROLE_ADMIN");
-
-        String token = Jwts
-                .builder()
-                .setId("softtekJWT")
-                .setSubject(username)
-                .claim("authorities",
-                        grantedAuthorities.stream()
-                                .map(GrantedAuthority::getAuthority)
-                                .collect(Collectors.toList()))
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 600000))
-                .signWith(SignatureAlgorithm.HS512,
-                        secretKey.getBytes()).compact();
-
-        return "Bearer " + token;
     }
 
 }
