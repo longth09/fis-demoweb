@@ -31,12 +31,12 @@ amazonProperties:
 # Keycloak Configuration
 keycloak:
   auth-server-url: http://localhost:8080/auth
-  realm: Demoweb
+  realm: demoweb
   resource: login-app
   public-client: true
   security-constraints:
     - authRoles:
-        - role_user
+        - admin
       securityCollections:
         - patterns:
             - /secure/*
