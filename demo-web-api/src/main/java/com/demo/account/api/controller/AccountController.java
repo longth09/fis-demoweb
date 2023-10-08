@@ -12,7 +12,6 @@ import com.demo.common.rest.response.BaseResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,7 +47,6 @@ public class AccountController {
     }
 
     @GetMapping("/accounts/{id}")
-    @PreAuthorize("hasRole('user')")
     public BaseResponse<Account> get(@PathVariable Long id) {
         Account account = service.getById(id);
         return BaseResponse.ofSucceeded(service.getById(id));

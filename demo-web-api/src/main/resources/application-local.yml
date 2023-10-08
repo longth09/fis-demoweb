@@ -34,10 +34,4 @@ keycloak:
   realm: demoweb
   resource: login-app
   public-client: true
-  security-constraints:
-    - authRoles:
-        - admin
-      securityCollections:
-        - patterns:
-            - /secure/*
-  principal-attribute: preferred_username
+  bearer-only: true

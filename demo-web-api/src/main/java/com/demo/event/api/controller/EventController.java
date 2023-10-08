@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.ByteArrayOutputStream;
@@ -53,11 +54,13 @@ public class EventController {
     private final EventRepository eventRepository;
 
     @GetMapping("/events")
+    @RolesAllowed("user")
     public BaseResponse<Page<EventResDto>> getAll(Pageable pageable) {
         return BaseResponse.ofSucceeded(eventService.getEvents(pageable));
     }
 
     @GetMapping("/events/{id}")
+    @RolesAllowed("user")
     public BaseResponse<?> getById(@PathVariable Long id) {
         try {
             EventResDto eventResDto = eventService.getById(id).get();
@@ -68,6 +71,7 @@ public class EventController {
     }
 
     @DeleteMapping("/events/{id}")
+    @RolesAllowed("admin")
     public BaseResponse<?> deEvent(@PathVariable Long id) {
         Boolean del = eventService.delete(id);
         if (del) return BaseResponse.ofSucceeded("");
