@@ -34,5 +34,6 @@ keycloak:
   auth-server-url: http://localhost:8080/auth
   resource: login-app
   bearer-only: true
-  use-resource-role-mappings: true
-  cors-allowed-methods: POST, PUT, DELETE, GET
+  ssl-required: external
+  credentials:
+    secret: G4wQb5N1scrGvIfzzNzhWSa6ZdsXLrwq

@@ -42,8 +42,7 @@ public class KeycloakConfig extends KeycloakWebSecurityConfigurerAdapter {
         super.configure(http);
         http
                 .authorizeRequests()
-                .antMatchers("/admin/events/**").hasRole("admin") // Phân quyền theo Keycloak roles
-                .antMatchers("/events/**").hasRole("user") // Phân quyền theo Keycloak roles
                 .anyRequest().permitAll();
     }
+
 }

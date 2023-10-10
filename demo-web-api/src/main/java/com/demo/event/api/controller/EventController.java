@@ -54,13 +54,13 @@ public class EventController {
     private final EventRepository eventRepository;
 
 
-    @GetMapping("/events")
+    @GetMapping("/admin/events")
     @PreAuthorize("hasRole('admin')")
     public BaseResponse<Page<EventResDto>> getAll(Pageable pageable) {
         return BaseResponse.ofSucceeded(eventService.getEvents(pageable));
     }
 
-    @GetMapping("/events/{id}")
+    @GetMapping("/user/events/{id}")
     @PreAuthorize("hasRole('user')")
     public BaseResponse<?> getById(@PathVariable Long id) {
         try {
@@ -71,8 +71,7 @@ public class EventController {
         }
     }
 
-    @DeleteMapping("/events/{id}")
-    @PreAuthorize("hasRole('admin')")
+    @DeleteMapping("/admin/events/{id}")
     public BaseResponse<?> deEvent(@PathVariable Long id) {
         Boolean del = eventService.delete(id);
         if (del) return BaseResponse.ofSucceeded("");
@@ -92,7 +91,6 @@ public class EventController {
     }
 
     @PostMapping("/events")
-    @PreAuthorize("hasRole('user')")
     public BaseResponse<?> insert(@RequestBody @Valid Event eventRequestDto) {
         try {
             Event event = eventService.insert(eventRequestDto);
