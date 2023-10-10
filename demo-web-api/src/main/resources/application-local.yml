@@ -30,8 +30,9 @@ amazonProperties:
 
 # Keycloak Configuration
 keycloak:
-  auth-server-url: http://localhost:8080/auth
   realm: demoweb
+  auth-server-url: http://localhost:8080/auth
   resource: login-app
-  public-client: true
   bearer-only: true
+  use-resource-role-mappings: true
+  cors-allowed-methods: POST, PUT, DELETE, GET

@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.ByteArrayOutputStream;
@@ -41,7 +41,7 @@ import static com.demo.common.exception.DefaultErrorCode.DEFAULT_BAD_REQUEST;
 import static com.demo.common.exception.DefaultErrorCode.DEFAULT_NOT_FOUND;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("")
 @RequiredArgsConstructor
 public class EventController {
 
@@ -53,14 +53,15 @@ public class EventController {
 
     private final EventRepository eventRepository;
 
+
     @GetMapping("/events")
-    @RolesAllowed("user")
+    @PreAuthorize("hasRole('admin')")
     public BaseResponse<Page<EventResDto>> getAll(Pageable pageable) {
         return BaseResponse.ofSucceeded(eventService.getEvents(pageable));
     }
 
     @GetMapping("/events/{id}")
-    @RolesAllowed("user")
+    @PreAuthorize("hasRole('user')")
     public BaseResponse<?> getById(@PathVariable Long id) {
         try {
             EventResDto eventResDto = eventService.getById(id).get();
@@ -71,7 +72,7 @@ public class EventController {
     }
 
     @DeleteMapping("/events/{id}")
-    @RolesAllowed("admin")
+    @PreAuthorize("hasRole('admin')")
     public BaseResponse<?> deEvent(@PathVariable Long id) {
         Boolean del = eventService.delete(id);
         if (del) return BaseResponse.ofSucceeded("");
@@ -91,6 +92,7 @@ public class EventController {
     }
 
     @PostMapping("/events")
+    @PreAuthorize("hasRole('user')")
     public BaseResponse<?> insert(@RequestBody @Valid Event eventRequestDto) {
         try {
             Event event = eventService.insert(eventRequestDto);
