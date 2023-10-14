@@ -36,4 +36,4 @@ keycloak:
   bearer-only: true
   ssl-required: external
   credentials:
-    secret: G4wQb5N1scrGvIfzzNzhWSa6ZdsXLrwq
+    secret: YF2PA4lnt4nq5ezrpTREhaGVI3eydeDe

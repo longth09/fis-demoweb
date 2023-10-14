@@ -72,6 +72,7 @@ public class EventController {
     }
 
     @DeleteMapping("/admin/events/{id}")
+    @PreAuthorize("hasRole('admin')")
     public BaseResponse<?> deEvent(@PathVariable Long id) {
         Boolean del = eventService.delete(id);
         if (del) return BaseResponse.ofSucceeded("");
