@@ -86,11 +86,13 @@ public class TicketsController {
 
     @GetMapping("/tickets/search")
     public BaseResponse<?> search(@RequestBody TicketsRequest tickets, Pageable pageable) {
-        return BaseResponse.ofSucceeded(ticketsService.search(tickets, pageable));
+        if (tickets != null) return BaseResponse.ofSucceeded(ticketsService.search(tickets, pageable));
+        return BaseResponse.ofSucceeded(getAll(pageable));
+        
     }
 
-    @GetMapping("/tickets/test")
-    public BaseResponse<?> test(@RequestParam("address") String address) {
-        return BaseResponse.ofSucceeded(new TicketsRepo().findUsersWithUsernameLike(address));
-    }
+//    @GetMapping("/tickets/test")
+//    public BaseResponse<?> test(@RequestParam("address") String address) {
+//        return BaseResponse.ofSucceeded(new TicketsRepo().findUsersWithUsernameLike(address));
+//    }
 }
