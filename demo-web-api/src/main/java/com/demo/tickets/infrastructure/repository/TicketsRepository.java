@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.List;
 
 @Repository
 public interface TicketsRepository extends JpaRepository<Tickets, Long> {
@@ -40,6 +39,5 @@ public interface TicketsRepository extends JpaRepository<Tickets, Long> {
                          @Param("updateDate") Instant updateDate,
                          @Param("offer") String offer,
                          @Param("trangThai") Integer trangThai,
-                         Pageable pageable
-    );
+                         Pageable pageable);
 }

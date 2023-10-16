@@ -6,6 +6,7 @@ import com.demo.coupons.infrastructure.repository.CouponsRepository;
 import com.demo.tickets.api.dto.TicketsRequest;
 import com.demo.tickets.api.dto.TicketsResDto;
 import com.demo.tickets.domain.model.Tickets;
+import com.demo.tickets.infrastructure.repository.TicketsRepo;
 import com.demo.tickets.infrastructure.repository.TicketsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -94,4 +95,6 @@ public class TicketsServiceImpl implements TicketsService {
     public Page<Tickets> search(TicketsRequest tickets, Pageable pageable) {
         return repository.search(tickets.getId(), tickets.getName(), tickets.getAddress(), tickets.getRank(), tickets.getPrice(), tickets.getNote(), tickets.getMeetings(), tickets.getTicketType(), tickets.getStartTime(), tickets.getCreateDate(), tickets.getUpdateDate(), tickets.getOffer(), tickets.getTrangThai(), pageable);
     }
+
+
 }

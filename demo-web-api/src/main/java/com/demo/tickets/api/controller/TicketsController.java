@@ -6,6 +6,7 @@ import com.demo.tickets.api.dto.TicketsRequest;
 import com.demo.tickets.api.dto.TicketsResDto;
 import com.demo.tickets.domain.model.Tickets;
 import com.demo.tickets.domain.service.TicketsService;
+import com.demo.tickets.infrastructure.repository.TicketsRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,10 +16,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 
 @RestController
@@ -85,5 +87,10 @@ public class TicketsController {
     @GetMapping("/tickets/search")
     public BaseResponse<?> search(@RequestBody TicketsRequest tickets, Pageable pageable) {
         return BaseResponse.ofSucceeded(ticketsService.search(tickets, pageable));
+    }
+
+    @GetMapping("/tickets/test")
+    public BaseResponse<?> test(@RequestParam("address") String address) {
+        return BaseResponse.ofSucceeded(new TicketsRepo().findUsersWithUsernameLike(address));
     }
 }
