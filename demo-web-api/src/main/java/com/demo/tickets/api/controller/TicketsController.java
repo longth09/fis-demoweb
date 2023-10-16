@@ -2,6 +2,7 @@ package com.demo.tickets.api.controller;
 
 import com.demo.common.exception.DefaultErrorCode;
 import com.demo.common.rest.response.BaseResponse;
+import com.demo.tickets.api.dto.TicketsRequest;
 import com.demo.tickets.api.dto.TicketsResDto;
 import com.demo.tickets.domain.model.Tickets;
 import com.demo.tickets.domain.service.TicketsService;
@@ -46,15 +47,15 @@ public class TicketsController {
     @DeleteMapping("/tickets/{id}")
     public BaseResponse<?> deleteById(@PathVariable("id") Long id) {
         Boolean del = ticketsService.deleteById(id);
-        if(del)
-            return BaseResponse.ofSucceeded("Delete success id: "+ id);
+        if (del)
+            return BaseResponse.ofSucceeded("Delete success id: " + id);
         return BaseResponse.ofFailed(DefaultErrorCode.DEFAULT_NOT_FOUND);
     }
 
     @DeleteMapping("/tickets")
     public BaseResponse<?> clean() {
         Boolean clean = ticketsService.clean();
-        if(clean)
+        if (clean)
             return BaseResponse.ofSucceeded("Clean success!");
         return BaseResponse.ofFailed(DefaultErrorCode.DEFAULT_BAD_REQUEST);
     }
@@ -62,8 +63,8 @@ public class TicketsController {
     @PostMapping("/tickets")
     public BaseResponse<?> insert(@Valid @RequestBody Tickets tickets) {
         try {
-             TicketsResDto tickets1 = ticketsService.insert(tickets);
-             return BaseResponse.ofSucceeded(tickets1);
+            TicketsResDto tickets1 = ticketsService.insert(tickets);
+            return BaseResponse.ofSucceeded(tickets1);
         } catch (Exception e) {
             e.printStackTrace();
             return BaseResponse.ofFailed(DefaultErrorCode.DEFAULT_BAD_REQUEST);
@@ -73,11 +74,16 @@ public class TicketsController {
     @PutMapping("/tickets/{id}")
     public BaseResponse<?> update(@Valid @RequestBody Tickets tickets, @PathVariable("id") Long id) {
         try {
-             Tickets tickets1 = ticketsService.update(id, tickets);
-             return BaseResponse.ofSucceeded(tickets1);
+            Tickets tickets1 = ticketsService.update(id, tickets);
+            return BaseResponse.ofSucceeded(tickets1);
         } catch (Exception e) {
             e.printStackTrace();
             return BaseResponse.ofFailed(DefaultErrorCode.DEFAULT_BAD_REQUEST);
         }
+    }
+
+    @GetMapping("/tickets/search")
+    public BaseResponse<?> search(@RequestBody TicketsRequest tickets, Pageable pageable) {
+        return BaseResponse.ofSucceeded(ticketsService.search(tickets, pageable));
     }
 }
