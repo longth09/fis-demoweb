@@ -26,7 +26,7 @@ public interface TicketsRepository extends JpaRepository<Tickets, Long> {
             "OR created_date =:createDate " +
             "OR updated_date =:updateDate " +
             "OR offer =:offer " +
-            "OR trang_thai =:trangThai", nativeQuery = true)
+            "OR (:trangThai IS NULL OR trang_thai = COALESCE(:trangThai, ''))", nativeQuery = true)
     Page<Tickets> search(@Param("id") Long id, @Param("name") String name,
                          @Param("address") String address,
                          @Param("rank") Character rank,
